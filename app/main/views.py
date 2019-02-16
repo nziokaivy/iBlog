@@ -21,14 +21,13 @@ def index():
 @login_required
 def account():
     
-    
     return render_template('account.html', title='Account')
 
-@main.route('/user/<uname>')
-def profile(uname):
-    user = User.query.filter_by(username = uname).first()
+@main.route('/user/<username>')
+def profile(username):
+    user = User.query.filter_by(username = username).first()
 
     if user is None:
         abort(404)
 
-    return render_template("account.html", user = user)
+    return render_template('account.html', user = user)
