@@ -18,25 +18,22 @@ class User(db.Model):
      posts = db.relationship('Post', backref='author', lazy=True)
      password_hash = db.Column(db.String(255))
     
-def get_reset_token(self, expires_sec=1800):
-    s = Serializer(app.config['SECRET_KEY'], expires_sec)
-    return s.dumps({'user_id' : self.id}).decode('utf-8')
+ 
 
-
-    @property
-    def password(self):
+     @property
+     def password(self):
         raise AttributeError('You cannot read the password attribute')
 
-    @password.setter
-    def password(self, password):
+     @password.setter
+     def password(self, password):
         self.password_hash = generate_password_hash(password)
 
 
-    def verify_password(self,password):
+     def verify_password(self,password):
         return check_password_hash(self.password_hash,password)
    
-    def __repr__(self):
-        return f"User('{self.username}', '{self.email}', '{self.image_file}')"
+     def __repr__(self):
+        return f"User('{self.username}', '{self.email}', '{self.image_file}, '{self.password})"
     
 
 
