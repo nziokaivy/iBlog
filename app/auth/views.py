@@ -7,3 +7,8 @@ def register():
     form = RegistrationForm()
     return render_template('register.html', title='Register', form=form)
 
+@app.route("/about")
+def about():
+    form = LoginForm()
+    return render_template('login.html', title='Login', form=form)
+
