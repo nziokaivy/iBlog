@@ -15,17 +15,13 @@ def register():
         db.session.commit()
         flash(f'Account created for {form.username.data}! You are now able to log in', 'success')
               
-        return redirect(url_for('auth.login'))
+        return redirect(url_for('main.index'))
         title = "New Account"
-    return render_template('auth/register.html', form = form)
+    return render_template('auth/register.html', title='Register', form = form)
 
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-
-    if current_user.is_authenticated:
-        return redirect(url_for('main.home'))
-    title = 'Login'
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
@@ -35,8 +31,8 @@ def login():
             return redirect(next_page) if next_page else redirect(url_for('main.home'))
         else:    
             flash('Login unsuccessful.Please check email and password!', 'danger')    
-        return redirect(url_for('main.home'))
-    return render_template('auth/login.html', title=title, form=form)
+        return redirect(url_for('auth.login'))
+    return render_template('auth/login.html', title='Login', form=form)
 
 @auth.route('/logout')
 @login_required

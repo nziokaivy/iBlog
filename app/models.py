@@ -33,7 +33,7 @@ class User(db.Model):
         return check_password_hash(self.password_hash,password)
    
      def __repr__(self):
-        return f"User('{self.username}', '{self.email}', '{self.image_file}, '{self.password})"
+        return f"User('{self.username}', '{self.email}', '{self.image_file}')"
     
 
 
@@ -48,48 +48,6 @@ class Post(db.Model):
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted}')"
 
-class PostCategory(db.Model):
-    __tablename__ = 'post_categories'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255))
-    description = db.Column(db.String(255))
-
-    def save_category(self):
-        '''
-        Function that saves a category
-        '''
-        db.session.add(self)
-        db.session.commit()
-
-    @classmethod
-    def get_categories(cls):
-        '''
-        Function that returns all the data from the categories after being queried
-        '''
-        categories = PostCategory.query.all()
-        return categories        
-
-class Comment(db.Model):
-    __tablename__= 'comment'
-     
-    id = db.Column(db.Integer, primary_key = True)
-    comment_id = db.column(db.String(255))
-    author = db.column(db.Text)
-    date_posted = db.Column(db.DateTime, default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
-
-
-    def save_comment(self):
-        db.session.add(self)
-        db.session.commit()   
-
-    @classmethod
-    def get_comments(self, id):
-        comment = Comment.query.order_by(
-            Comment.date_posted.desc()).filter_by(posts_id=id).all()
-        return comment    
-        
 
 if __name__ == '__main__':
     init_db()    
