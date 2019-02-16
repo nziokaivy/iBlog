@@ -10,7 +10,7 @@
 
     <!--Displaying user bio-->
     {% if current_user.bio %}
-      <p> {{current_user.bio}}</p>
+      <h3> {{current_user.bio}}</h3>
     {%else%}
       <p> {{current_user.username| capitalize}} has no bio </p>
     {% endif %}
@@ -27,6 +27,10 @@
       </div>
     </div>
     </div>
+
+    {% if user == current_user %}
+    <a href="{{url_for('main.update_profile',uname=user.username)}}">Edit profile</a>
+{% endif %}
 
     
 {% endblock %}
