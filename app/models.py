@@ -1,4 +1,13 @@
 from .import db
+from werkzeug.security import generate_password_hash,check_password_hash
+from flask_login import UserMixin
+from . import login_manager
+from datetime import datetime
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
 
 class User(db.Model):
      __tablename__ = 'users'
@@ -9,3 +18,81 @@ class User(db.Model):
      posts = db.relationship('Post', backref='author', lazy=True)
      password_hash = db.Column(db.String(255))
     
+def get_reset_token(self, expires_sec=1800):
+    s = Serializer(app.config['SECRET_KEY'], expires_sec)
+    return s.dumps({'user_id' : self.id}).decode('utf-8')
+
+
+    @property
+    def password(self):
+        raise AttributeError('You cannot read the password attribute')
+
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+
+    def verify_password(self,password):
+        return check_password_hash(self.password_hash,password)
+   
+    def __repr__(self):
+        return f"User('{self.username}', '{self.email}', '{self.image_file}')"
+    
+
+
+class Post(db.Model):
+    __tablename__ = 'posts'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    content = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+    def __repr__(self):
+        return f"Post('{self.title}', '{self.date_posted}')"
+
+class PostCategory(db.Model):
+    __tablename__ = 'post_categories'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
+    description = db.Column(db.String(255))
+
+    def save_category(self):
+        '''
+        Function that saves a category
+        '''
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_categories(cls):
+        '''
+        Function that returns all the data from the categories after being queried
+        '''
+        categories = PostCategory.query.all()
+        return categories        
+
+class Comment(db.Model):
+    __tablename__= 'comment'
+     
+    id = db.Column(db.Integer, primary_key = True)
+    comment_id = db.column(db.String(255))
+    author = db.column(db.Text)
+    date_posted = db.Column(db.DateTime, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
+
+
+    def save_comment(self):
+        db.session.add(self)
+        db.session.commit()   
+
+    @classmethod
+    def get_comments(self, id):
+        comment = Comment.query.order_by(
+            Comment.date_posted.desc()).filter_by(posts_id=id).all()
+        return comment    
+        
+
+if __name__ == '__main__':
+    init_db()    
