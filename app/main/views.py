@@ -16,3 +16,9 @@ def index():
     
     
     return render_template('index.html')
+
+@main.route("/account")
+def account():
+    
+    
+    return render_template('account.html', title='Account')
