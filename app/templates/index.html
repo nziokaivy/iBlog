@@ -1,3 +1,107 @@
-<h1>hello world</h1>
-<h6>{{quotes.quote}}</h6>
-<p>{{quotes.author}}</p>
+{% extends "layout.html" %}
+{% block content %}
+
+<!-- Landing Page Content -->
+<div class="w3-padding-large" id="main">
+    <!-- Header/Home -->
+    <header class="w3-container w3-center w3-black" id="home">
+        <h1 class="w3-jumbo"><span class="w3-hide-small">Hey,I'm</span> Ivy Nzioka.</h1>
+        <p>A FullStack Developer.</p>
+        <img src="/static/pictures/background2.jpeg" alt="girl" width="2000" height="1000">  
+      
+        </header>
+   <br>
+   <br>
+   <br>
+   <br>
+   <br>
+   <br>
+   <br>
+   <br>
+   <br>
+   <br>
+   <br>
+   <br>
+   <br>
+   <br>
+   <br>
+    <!-- Quote Section -->
+    <div class="w3-content w3-justify w3-text-grey w3-padding-64 w3-black" id="random">
+        <h2 class="w3-text-light-grey w3-margin-left-200" > Quote</h2>
+        <hr style="width:200px" class="w3-opacity">
+        <br>
+        <br>
+            <div class="w3-panel w3-leftbar w3-transparent">
+              <p style="font-size: 30px;"><i>"{{quotes.quote}}"</i></p>
+              <p>{{quotes.author}}</p>
+           </div>
+               
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+    <!-- About Section -->
+  <div class="w3-content w3-justify w3-text-grey w3-padding-64 w3-black" id="about">
+      <h2 class="w3-text-light-grey w3-margin-left-200" >Ivy</h2>
+      <hr style="width:200px" class="w3-opacity">
+      <p style="font-size: 30px;">I've always been drawn to the overlap between design and development.
+          My skills are broad from ux to design, front end to back end development.
+          I strive to build immersive and beautiful web applications through carefully
+          crafted code and user-centric design. 
+          Since graduating with a B.S. in Computer Science from MIT University in 2007, 
+          I have focused my professional career almost exclusively on front-end development.
+          When not online, I can be found in Nairobi,Kenya with my family,searching for
+          the perfect vintage items for my home, trying out a new recipe
+          in the kitchen, experimenting in gardening, or snuggling with my two dogs, Zuma and Moran .</p>
+      
+      <!-- Contact Section -->
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+  
+      <div class="w3-padding-64 w3-content w3-text-grey" id="contact">
+      <h2 class="w3-text-light-grey">Contact Me</h2>
+      <hr style="width:200px" class="w3-opacity">
+  
+      <div class="w3-section">
+          <p style="font-size: 30px;"> I'm Nairobi-bred,wander from coast to coast,
+            and welcome bribes in the form of bread.</p>
+          <p style="font-size: 30px;">Let's get in touch.</p>
+
+          <div class="w3-section">
+              <p><i class="fa fa-map-marker fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> Nairobi, Kenya</p>
+              <p><i class="fa fa-phone fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> Phone: +254 712 345 678</p>
+              <p><i class="fa fa-envelope fa-fw w3-text-white w3-xxlarge w3-margin-right"> </i> Email: nziokaivy@gmail.com</p>
+            </div><br>
+
+          
+            <footer class="w3-content w3-padding-64 w3-text-grey w3-xlarge">
+                <i class="fa fa-facebook-official w3-hover-opacity"></i>
+                <i class="fa fa-instagram w3-hover-opacity"></i>
+                <i class="fa fa-snapchat w3-hover-opacity"></i>
+                <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+                <i class="fa fa-twitter w3-hover-opacity"></i>
+                <i class="fa fa-linkedin w3-hover-opacity"></i>
+            </footer>
+
+      </div>
+      <br>
+
+{% endblock content %}

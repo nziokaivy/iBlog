@@ -9,6 +9,13 @@ class Config:
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://ivy:password@localhost/iblog'
     SECRET_KEY = os.environ.get('SECRET_KEY')
     UPLOADED_PHOTOS_DEST ='app/static/pictures'
+    MAIL_SERVER = 'smtp.googlemail.com'
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    MAIL_USERNAME = os.environ.get("MAIL_USERNAME")
+    MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
+    SUBJECT_PREFIX = 'BLOG'
+    SENDER_EMAIL = 'nziokaivy@gmail.com'
 
 
 

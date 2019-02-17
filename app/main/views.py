@@ -20,7 +20,7 @@ def index():
 
 @main.route("/home")
 def home():
-    posts = Post.query.all()
+    posts = Post.query.order_by(Post.date_posted.desc())
     return render_template('home.html', posts=posts)
 
 def save_picture(form_picture):
@@ -101,7 +101,7 @@ def new_post():
         db.session.add(post)
         db.session.commit()
         flash('Your post has been created!','success')
-        return redirect(url_for('main.index'))
+        return redirect(url_for('main.home'))
     return render_template('create_post.html',title="New Post", form=form, legend='New Post')  
 
 @main.route("/post/<int:post_id>")
@@ -138,7 +138,7 @@ def delete_post(post_id):
     db.session.commit()
     flash('Your post has been deleted', 'success')
     
-    return redirect(url_for('main.index'))
+    return redirect(url_for('main.home'))
 
 @main.route('/<int:post_id>/add/comment', methods=['GET', 'POST'])
 def comment(post_id):

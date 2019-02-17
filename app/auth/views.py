@@ -4,7 +4,8 @@ from flask_login import login_user,logout_user,login_required, current_user
 from ..models import User,Post
 from .forms import LoginForm,RegistrationForm
 from .. import db
-# from ..email import mail_message
+from ..email import mail_message
+from ..email import post_message
 
 @auth.route('/register',methods = ["GET","POST"])
 def register():
@@ -16,9 +17,12 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash(f'Welcome {form.username.data}! Your account has been created! You are now able to log in', 'success')
+        mail_message("Welcome to iBlog","email/welcome_user",user.email,user=user)
         return redirect(url_for('auth.login'))
         title = "New Account"
     return render_template('auth/register.html', title='Register', form = form)
+
+ 
 
 
 @auth.route('/login', methods=['GET', 'POST'])
