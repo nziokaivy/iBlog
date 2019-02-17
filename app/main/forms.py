@@ -25,4 +25,7 @@ class UpdateProfileForm(FlaskForm):
             if user:
                 raise ValidationError('That email is taken. Please choose a different one.')
 
-    
+class PostForm(FLaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    content = TextAreaField('Content', validators=[DataRequired()])
+    submit = SUbmitField('Post') 
