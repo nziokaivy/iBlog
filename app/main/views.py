@@ -62,15 +62,12 @@ def update_profile(username):
     user = User.query.filter_by(username = username).first()
     if user is None:
         abort(404)
-
     form = UpdateProfileForm()
 
     if form.validate_on_submit():
         current_user.bio = form.bio.data
-
         db.session.add(user)
         db.session.commit()
-
         return redirect(url_for('account.html',username=current_user.username))
 
     return render_template('update.html',form =form)  
@@ -127,10 +124,12 @@ def update_post(post_id):
 @main.route("/post/<int:post_id>/delete", methods= ['POST'])
 @login_required
 def delete_post(post_id):
-    post = Post.query.get_or_404(post_id)
-    if post.author != current_user:
-        abort(403) 
-        db.session.delete(post)
-        db.session.commit()
-        flash('Your post has been deleted', 'success')
-        return redirect(url_for('home'))
+    post = Post.query.filter_by(id=post_id).first() 
+    db.session.delete(post)
+    db.session.commit()
+    flash('Your post has been deleted', 'success')
+    
+    return redirect(url_for('main.index'))
+
+@main.route('/<int:post_id>/comments')
+def show_comment

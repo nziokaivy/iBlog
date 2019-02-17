@@ -13,13 +13,10 @@
           </div>
         {% endif %}
       </div>
-      <h2 class="article-title" href="{{ url_for('main.post', post_id=post.id) }}">{{ post.title }}</h2>
+      <h2 class="article-title">{{ post.title }}</h2>
       <p class="article-content">{{ post.content }}</p>
     </div>
   </article>
-
-  
-  </div>
   <!-- Modal -->
   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -38,5 +35,5 @@
         </div>
       </div>
     </div>
-    </div>
+  </div>
 {% endblock content %}

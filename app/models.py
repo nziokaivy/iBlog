@@ -54,9 +54,7 @@ class Comment(db.Model):
     __tablename__= 'comment'
      
     id = db.Column(db.Integer, primary_key = True)
-    comment_id = db.column(db.String(255))
-    author = db.column(db.Text)
-    date_posted = db.Column(db.DateTime, default=datetime.utcnow)
+    body = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
 
@@ -65,6 +63,7 @@ class Comment(db.Model):
         db.session.add(self)
         db.session.commit()   
 
+        
     @classmethod
     def get_comments(self, id):
         comment = Comment.query.order_by(
