@@ -3,17 +3,16 @@ import secrets
 from flask_wtf import FlaskForm
 from flask import Flask, render_template, url_for, flash, redirect, request, abort
 from . import main
-from ..models import User
+from ..models import User, Post
 from flask_login import login_user,logout_user,login_required, current_user
-from .forms import UpdateProfileForm
+from .forms import UpdateProfileForm, PostForm
 from ..import db, photos
 
 @main.route("/")
 @main.route("/home")
 def index():
-    
-    
-    return render_template('index.html')
+    posts = Post.query.all()
+    return render_template('index.html', posts=posts)
 
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
@@ -87,7 +86,14 @@ def update_pic(username):
         db.session.commit()
     return redirect(url_for('main.account',username=username))
 
-@main.route('/post/new')
+@main.route('/post/new', methods= ['GET', 'POST'])
 @login_required
 def new_post():
-     return render_template('create_post.html',title="New Post")  
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(title=form.title.data, content=form.content.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('Your post has been created!','success')
+        return redirect(url_for('main.index'))
+    return render_template('create_post.html',title="New Post", form=form)  
