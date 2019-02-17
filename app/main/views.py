@@ -1,3 +1,5 @@
+import os
+import secrets
 from flask_wtf import FlaskForm
 from flask import Flask, render_template, url_for, flash, redirect, request, abort
 from . import main
@@ -13,11 +15,25 @@ def index():
     
     return render_template('index.html')
 
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(app.root_path, 'static/pictures', picture_fn)
+    form_picture.save(picture_path)
+
+    return picture_fn
+
+
+
 @main.route("/account", methods = ['GET','POST'])
 @login_required
 def account():
     form = UpdateProfileForm()
     if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.image_file = fpicture_file
         current_user.username = form.username.data
         current_user.email = form.email.data
         current_user.bio = form.bio.data
@@ -70,3 +86,8 @@ def update_pic(username):
         user.profile_pic_path = path
         db.session.commit()
     return redirect(url_for('main.account',username=username))
+
+@main.route('/post/new')
+@login_required
+def new_post():
+     return render_template('create_post.html',title="New Post")  
