@@ -51,10 +51,11 @@ class Post(db.Model):
 
 
 class Comment(db.Model):
-    __tablename__= 'comment'
+    __tablename__= 'comments'
      
     id = db.Column(db.Integer, primary_key = True)
     body = db.Column(db.Text)
+    author = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
 
@@ -63,12 +64,17 @@ class Comment(db.Model):
         db.session.add(self)
         db.session.commit()   
 
-        
-    @classmethod
-    def get_comments(self, id):
-        comment = Comment.query.order_by(
+    def get_comments(cls:
+        comments = Comment.query.all()
         Comment.date_posted.desc()).filter_by(posts_id=id).all()
-        return comment    
+        return comments 
+
+    all_comments = [] 
+
+    def __init__(self,body,author):
+        self.body = body
+        self.author = author
+
         
 
 if __name__ == '__main__':
