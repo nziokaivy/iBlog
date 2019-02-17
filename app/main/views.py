@@ -3,7 +3,8 @@ import secrets
 from flask_wtf import FlaskForm
 from flask import Flask, render_template, url_for, flash, redirect, request, abort
 from . import main
-from ..models import User, Post
+from ..requests import get_quotes
+from ..models import User, Post, Quote
 from flask_login import login_user,logout_user,login_required, current_user
 from .forms import UpdateProfileForm, PostForm
 from ..import db, photos
