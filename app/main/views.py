@@ -1,10 +1,10 @@
 from flask_wtf import FlaskForm
-from flask import Flask, render_template, url_for,redirect, request, abort
+from flask import Flask, render_template, url_for, flash, redirect, request, abort
 from . import main
 from ..models import User
 from flask_login import login_user,logout_user,login_required, current_user
 from .forms import UpdateProfileForm
-from ..import db
+from ..import db, photos
 
 @main.route("/")
 @main.route("/home")
@@ -13,10 +13,21 @@ def index():
     
     return render_template('index.html')
 
-@main.route("/account")
+@main.route("/account", methods = ['GET','POST'])
 @login_required
 def account():
     form = UpdateProfileForm()
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        current_user.bio = form.bio.data
+        db.session.commit()
+        flash('Your account has been updated', 'success')
+        return redirect(url_for('main.account'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+        form.bio.data = current_user.bio
     image_file = url_for('static', filename='pictures/' + current_user.image_file)
     
     return render_template('account.html', title='Account', image_file=image_file, form=form)
@@ -49,4 +60,13 @@ def update_profile(username):
 
     return render_template('update.html',form =form)  
 
-
+@main.route('/user/<username>/update/pic',methods= ['POST'])
+@login_required
+def update_pic(username):
+    user = User.query.filter_by(username = username).first()
+    if 'photo' in request.files:
+        filename = photos.save(request.files['photo'])
+        path = f'photos/{filename}'
+        user.profile_pic_path = path
+        db.session.commit()
+    return redirect(url_for('main.account',username=username))
