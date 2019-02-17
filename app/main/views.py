@@ -3,7 +3,7 @@ from flask import Flask, render_template, url_for,redirect, request, abort
 from . import main
 from ..models import User
 from flask_login import login_user,logout_user,login_required, current_user
-from .forms import UpdateProfile
+from .forms import UpdateProfileForm
 from ..import db
 
 @main.route("/")
@@ -16,8 +16,10 @@ def index():
 @main.route("/account")
 @login_required
 def account():
+    form = UpdateProfileForm()
+    image_file = url_for('static', filename='pictures/' + current_user.image_file)
     
-    return render_template('account.html', title='Account')
+    return render_template('account.html', title='Account', image_file=image_file, form=form)
 
 @main.route('/user/<username>')
 def profile(username):
@@ -35,7 +37,7 @@ def update_profile(username):
     if user is None:
         abort(404)
 
-    form = UpdateProfile()
+    form = UpdateProfileForm()
 
     if form.validate_on_submit():
         current_user.bio = form.bio.data
@@ -43,6 +45,8 @@ def update_profile(username):
         db.session.add(user)
         db.session.commit()
 
-        return redirect(url_for('.account',username=current_user.username))
+        return redirect(url_for('account.html',username=current_user.username))
 
-    return render_template('update.html',form =form)    
+    return render_template('update.html',form =form)  
+
+
