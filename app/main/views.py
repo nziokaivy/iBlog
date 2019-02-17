@@ -8,11 +8,19 @@ from flask_login import login_user,logout_user,login_required, current_user
 from .forms import UpdateProfileForm, PostForm
 from ..import db, photos
 
-@main.route("/")
-@main.route("/home")
+@main.route('/')
 def index():
+    random_quotes = get_quotes()
+    print(random_quotes)
+    title = 'Home'
+    return render_template('index.html', title = title, quotes = random_quotes)
+
+
+
+@main.route("/home")
+def home():
     posts = Post.query.all()
-    return render_template('index.html', posts=posts)
+    return render_template('home.html', posts=posts)
 
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
@@ -98,7 +106,7 @@ def new_post():
 @main.route("/post/<int:post_id>")
 def post(post_id):
     post = Post.query.get_or_404(post_id)
-    return render_template('post.html', title=post.title, post=post)
+    return render_template('post.html', id=post_id, title=post.title, post=post)
 
 
 @main.route("/post/<int:post_id>/update", methods= ['GET', 'POST'])
@@ -134,9 +142,18 @@ def delete_post(post_id):
 @main.route('/<int:post_id>/add/comment', methods=['GET', 'POST'])
 def comment(post_id):
     post = Post.query.filter_by(id = post_id).first()
-    comments = Comment.get_comments(id)
+    form = CommentForm()
+
+    if form.validate_on_submit():
+        body = form.body.data
+        author = form.author.data
+
+        new_comment = Comment(body=form.body.data, post=post, author=acurrent_user)
+        new_comment.save_comment()
+        flash('Your comment has been published.')
+        return redirect(url_for('main.post', id=post.id, ))
     
-    return render_template('show_comments.html', comments=comments, post=post)
+    return render_template('main.comments.html', comments=comments, post=post)
 
 
 @main.route('/<int:post_id>/comments')
@@ -144,4 +161,4 @@ def show_comments(post_id):
     post = Post.query.filter_by(id = post_id).first()
     comments = Comment.get_comments(id)
     
-    return render_template('show_comments.html', comments=comments, post=post)
+    return render_template('main.show_comments.html', comments=comments, post=post)
