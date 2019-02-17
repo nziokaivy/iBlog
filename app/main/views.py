@@ -131,5 +131,17 @@ def delete_post(post_id):
     
     return redirect(url_for('main.index'))
 
+@main.route('/<int:post_id>/add/comment', methods=['GET', 'POST'])
+def comment(post_id):
+    post = Post.query.filter_by(id = post_id).first()
+    comments = Comment.get_comments(id)
+    
+    return render_template('show_comments.html', comments=comments, post=post)
+
+
 @main.route('/<int:post_id>/comments')
-def show_comment
+def show_comments(post_id):
+    post = Post.query.filter_by(id = post_id).first()
+    comments = Comment.get_comments(id)
+    
+    return render_template('show_comments.html', comments=comments, post=post)
