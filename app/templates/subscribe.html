@@ -1,40 +1,40 @@
-{% extends "layout.html" %}
+{% extends 'layout.html' %} 
+
+
 {% block content %}
 <div class="w3-padding-large" id="main">
-        <div class="w3-content w3-justify w3-text-grey w3-padding-64">
-      
-    <div class="content-section">
+    <div class="w3-content w3-justify w3-text-grey w3-padding-64">
+     <div class="content-section">
     <form method="POST" action="">
         {{ form.hidden_tag() }}
         <fieldset class="form-group">
-            <legend class="border-bottom mb-4">{{ legend }}</legend>
+            <legend class="border-bottom mb-4">Subscribe</legend>
             
                 <div class="form-group">
-                    {{ form.title.label(class="form-control-label") }}
-                    {% if form.title.errors %}
-                        {{ form.title(class="form-control form-control-lg is-invalid") }}
+                    {{ form.name.label(class="form-control-label") }}
+                    {% if form.name.errors %}
+                        {{ form.name(class="form-control form-control-lg is-invalid") }}
                         <div class="invalid-feedback">
-                            {% for error in form.title.errors %}
+                            {% for error in form.name.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.title(class="form-control form-control-lg") }}
+                        {{ form.name(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
                 <div class="form-group">
-                    {{ form.content.label(class="form-control-label") }}
-                    {% if form.content.errors %}
-                        {{ form.content(class="form-control form-control-lg is-invalid") }}
+                    {{ form.email.label(class="form-control-label") }}
+                    {% if form.email.errors %}
+                        {{ form.email(class="form-control form-control-lg is-invalid") }}
                         <div class="invalid-feedback">
-                            {% for error in form.content.errors %}
+                            {% for error in form.email.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.content(class="form-control form-control-lg") }}
+                        {{ form.email(class="form-control form-control-lg") }}
                     {% endif %}
-                
 
                 </div>
                 
@@ -46,4 +46,6 @@
     </div>
     
     </div>
-{% endblock content %}
+</div>
+      
+{% endblock %}

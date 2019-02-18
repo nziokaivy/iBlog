@@ -4,10 +4,12 @@ from flask_wtf import FlaskForm
 from flask import Flask, render_template, url_for, flash, redirect, request, abort
 from . import main
 from ..requests import get_quotes
-from ..models import User, Post, Quote
+from ..models import User, Post, Quote, Subscribe
 from flask_login import login_user,logout_user,login_required, current_user
-from .forms import UpdateProfileForm, PostForm
+from .forms import UpdateProfileForm, PostForm, SubscribeForm
 from ..import db, photos
+from flask_wtf import Form
+from wtforms import Form, TextField, BooleanField, PasswordField, TextAreaField, validators
 
 @main.route('/')
 def index():
@@ -152,7 +154,7 @@ def comment(post_id):
         new_comment = Comment(body=form.body.data, post=post, author=acurrent_user)
         new_comment.save_comment()
         flash('Your comment has been published.')
-        return redirect(url_for('main.post', id=post.id, ))
+        return redirect(url_for('main.post', id=post.id ))
     
     return render_template('main.comments.html', comments=comments, post=post)
 
@@ -163,3 +165,16 @@ def show_comments(post_id):
     comments = Comment.get_comments(id)
     
     return render_template('main.show_comments.html', comments=comments, post=post)
+
+@main.route('/subscribe',methods=["GET","POST"])
+def subscribe():
+    form = SubscribeForm()
+    if form.validate_on_submit():
+        subscriber = Subscribe(name=form.name.data,email=form.email.data)
+        db.session.add(subscriber)
+        db.session.commit()
+
+        mail_message("Welcome to iBlog","email/subscribe_user",subscriber.email,subscriber=subscriber)
+        
+        return redirect(url_for('main.home'))
+    return render_template('subcribe.html',subscribe_form=form)    

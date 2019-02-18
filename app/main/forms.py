@@ -35,3 +35,10 @@ class CommentForm():
    author = TextAreaField('By', validators=[DataRequired()])
    submit = SubmitField('Submit')
 
+class SubscribeForm():
+  name = StringField('Name',  validators=[DataRequired()])
+  email = StringField('Email',  validators=[DataRequired()])
+  submit = SubmitField('Subscribe')
+
+
+

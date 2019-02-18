@@ -1,54 +1,37 @@
 {% extends "layout.html" %}
 {% block content %}
-
-<div class="w3-container"> 
-    <a class="mr-2" href="#">{{ post.author.username }}</a>
-    <h2>{{ post.title }}</h2>
-    <p>{{ post.content }}</p>
-    <hr>
-  </div>
-  
-  <article class="w3-container"> 
-    <h2>Paris</h2>
-    <p>The Paris area is one of the largest population centers in Europe,
-    with more than 2 million inhabitants.</p>
-    <hr>
-  </article>
-  
-  <section class="w3-container"> 
-    <h2>Tokyo</h2>
-    <p>Tokyo is the center of the Greater Tokyo Area,
-    and the most populous metropolitan area in the world.</p>
-    <hr>
-  </section>
-  
-
-
-
-
-
-
-
-
+<div class="w3-padding-large" id="main">
+    <div class="w3-content w3-justify w3-text-grey w3-padding-64">
 
   <article class="media content-section">
-    <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
+    <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pictures/' + post.author.image_file) }}">
     <div class="media-body">
       <div class="article-metadata">
-        <a class="mr-2" href="#">{{ post.author.username }}</a>
-        <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
-        {% if post.author == current_user %}
-          <div>
-            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('main.update_post', post_id=post.id) }}">Update</a>
-            <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
-          </div>
-        {% endif %}
-      </div>
       <h2 class="article-title">{{ post.title }}</h2>
-      <p class="article-content">{{ post.content }}</p>
+      <hr>
+      <p class="article-content" style="font-size: 25px;">{{ post.content }}</p>
+      <small class="text-muted">{{ post.date_posted }}</small>
+      <div>
+       </div>
+       <br><br>
+        <a class="btn btn-secondary btn-sm mt-1 mb-1" style="border-radius: 12px" href="{{ url_for('main.update_post', post_id=post.id) }}">Update</a>
+        <button type="button" class="btn btn-danger btn-sm m-1" style="border-radius: 12px" data-toggle="modal" data-target="#deleteModal">Delete</button>
+        <br>
+        <br>
+        <br>
+        <div>
+            <textarea></textarea>
+            <br>
+            <br>
+            <button type="button" style="border-radius: 12px" class="btn btn-info btn-sm m-1" href="{{ url_for('main.post', post_id=post.id) }}">Add a Comment</button>
+
+        </div>
+        
+      </div>
     </div>
   </article>
-  <!-- Modal -->
+
+  
   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -67,10 +50,7 @@
       </div>
     </div>
   </div>
+  </div>
+  </div>
 
-  <a href="{{ url_for('main.post', id=post.id) }}#comments">
-    <span class="label label-primary">
-    {{ post.comments.count() }} Comments
-    </span>
-    </a>
-{% endblock content %}
+{% endblock %}

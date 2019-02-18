@@ -1,6 +1,8 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="content-section">
+<div class="w3-padding-large" id="main">
+    <div class="w3-content w3-justify w3-text-grey w3-padding-64">
+   <div class="content-section">
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
@@ -69,4 +71,6 @@
             Already Have An Account? <a class="ml-2" href="{{ url_for('auth.login') }}">Sign In</a>
         </small>
     </div>
+    </div>
+</div>
 {% endblock content %}

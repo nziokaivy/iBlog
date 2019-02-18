@@ -1,26 +1,24 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="card">
-    {% for post in posts %}
-    
-  <div class="card-header">
-    <h2>{{ post.title }}</h2>
-    <img class="rounded-circle article-img" src="{{ url_for('static', filename='pictures/' + post.author.image_file) }}">
-    
- 
-  </div>
-  <div class="card-body">
-    <h4 class="card-title">{{ post.content }}</h4> 
-    <p>By {{ post.author.username }} on {{ post.date_posted.strftime('%Y-%m-%d') }}</p>
-    <a class="mr-2" href="{{ url_for('main.new_post', username=post.author.username) }}">{{ post.author.username }}</a>
-    </div>
+<div class="w3-padding-large" id="main">
+    <div class="w3-content w3-justify w3-text-grey w3-padding-64">
+        <div class="w3-container"> 
+            {% for post in posts %}
+            <h2>{{ post.title }}</h2>
+            <hr>
+            <p style="font-size: 25px;">{{ post.content }}</p>
+            <br>
+            <br>
+            <p>By {{ post.author.username }} on {{ post.date_posted.strftime('%Y-%m-%d') }}</p>
+            <br>
+            <button style="border-radius: 12px"><a href="{{ url_for('main.post', post_id=post.id, username=post.author.username) }}">Blog Options</a></button>
+            <br>
+            <br>
+            <br>
+            {% endfor %}
+          </div>
+          {% endblock content %}
 
 
-
-  </div>
-
-
-
-    {% endfor %}
-   </div>
-{% endblock content %}
+  
+         
